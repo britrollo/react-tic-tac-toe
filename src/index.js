@@ -54,6 +54,7 @@ class Game extends React.Component {
             }],
             stepNumber: 0,
             xIsNext: true,
+            scores: {'X': 0, 'O': 0},
         };
     }
 
@@ -113,7 +114,12 @@ class Game extends React.Component {
         let status;
         let newGame;
         if (winner) {
+            const scores = {...this.state.scores};
+            const winnerScore = scores[winner] + 1;
             status = 'Winner: ' + winner;
+            this.setState({
+                scores: {},
+            })
             newGame = (<button onClick={() => this.restartGame()}>New Game</button>);
         } else if (end) {
             status = 'Game Over. Play again?';
@@ -133,6 +139,9 @@ class Game extends React.Component {
                     <div>{status}</div>
                     {newGame}
                     <ol>{moves}</ol>
+                    <Scoreboard 
+                        scores={this.state.scores}
+                    />
                 </div>
             </div>
         );
